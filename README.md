@@ -14,7 +14,7 @@ They are implementation of convolution algorithm that applies **algorithmic stre
 ## Im2col
 The im2col algorithm is not one the the fast algorithm I talked about just above since it performs the same number of multiplications as the direct naive convolution with nested loops.  But why do we talk about it then ? On most of textbook or tutorials, convolution is presented by a kernel window gliding on the input and computing the convolution operation at each spot.
 
-![](./img/ezgif 4 92cd8c253f.gif)
+![](./img/ezgif492cd8c253f.gif)
 
 And the naive implementation is some nested loops, not very efficient. The main idea of the im2col algorithm is to transform the whole process into a matrix multiplication so that we can exploit GEMM computation.
 So do achieve this, let's say we work with a 3 channel w\*w input matrix and a 3 channel k\*k kernel, so that we obtain a mono channel (w-k+1)\*(w-k+1) feature map (no padding, no striding, no dilation, vanilla conv). We will then take every sliding window on the input matrix, convert it into a column, assembling those columns into a (k\*k\*c) \* ((h-k+1) \* (w-k+1)) matrix.
@@ -38,7 +38,7 @@ def im2col(input: np.array, k_h: int, k_w:int, stride: Tuple[int, int] = (1, 1))
 
 Where it returns the transpose of the intermediary matrix, you just have to flatten the kernel, effectue a matmul and reshape the result in the desired format. So you might think that the huge data duplication would be memory expensive and you are right, but this is far overweighted by the fast computing of matrix-multiplication.
 
-![](./img/Pasted image 20241014184647.png)
+![](./img/Pastedimage20241014184647.png)
 *Performances tested on a Apple M1 2020*
 
 ### Contiguous data
@@ -69,8 +69,8 @@ def im2col_strideTrick_2D(input: np.ndarray, kernel_shape: tuple) -> Tuple[Tuple
 	return tuple(new), result.reshape(kernel_shape[0] * kernel_shape[1], -1).T
 ```
 We then obtain the following performance results : 
-![](./img/Pasted image 20241014195712.png)
-![[Pasted image 20241014220904.png]]
+![](./img/Pastedimage20241014195712.png)
+![](./img/Pastedimage20241014220904.png)
 
 ## Winograd minimal filtering algorithm 
 The previous algorithm works pretty fine, but we as human who crave for more *efficenty* have also ameliorated the previous one. Indeed, im2col algorithm, even if it performs better than the basic convolution, suffer from two major back pain :  
