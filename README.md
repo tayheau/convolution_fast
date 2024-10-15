@@ -58,7 +58,7 @@ Considering the above `np.ndarray` as the variable `matrix`, we can use the `mat
 ![](./img/strides.png)
 With that in mind, we can then use the `np.lib.stride_tricks.as_strided()`, which create a view of an array with a given shape and strides.
 ![](./img/stride.gif)
-With this in mind, we can then compose a new `stride_mem2col()` function, which could be more developed later : 
+We can then compose a new `stride_mem2col()` function, which could be more developed later : 
 ```python
 def im2col_strideTrick_2D(input: np.ndarray, kernel_shape: tuple) -> Tuple[Tuple[int, int], np.ndarray]:
 	input_strides = input.strides
