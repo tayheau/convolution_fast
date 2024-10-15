@@ -14,7 +14,7 @@ They are implementation of convolution algorithm that applies **algorithmic stre
 ## Im2col
 The im2col algorithm is not one the the fast algorithm I talked about just above since it performs the same number of multiplications as the direct naive convolution with nested loops.  But why do we talk about it then ? On most of textbook or tutorials, convolution is presented by a kernel window gliding on the input and computing the convolution operation at each spot.
 
-![[ezgif 4 92cd8c253f.gif]]
+![](img/ezgif 4 92cd8c253f.gif)
 
 And the naive implementation is some nested loops, not very efficient. The main idea of the im2col algorithm is to transform the whole process into a matrix multiplication so that we can exploit GEMM computation.
 So do achieve this, let's say we work with a 3 channel w\*w input matrix and a 3 channel k\*k kernel, so that we obtain a mono channel (w-k+1)\*(w-k+1) feature map (no padding, no striding, no dilation, vanilla conv). We will then take every sliding window on the input matrix, convert it into a column, assembling those columns into a (k\*k\*c) \* ((h-k+1) \* (w-k+1)) matrix.
