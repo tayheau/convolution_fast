@@ -87,7 +87,7 @@ The `im2col` algorithm transforms the convolution process into a matrix multipli
 A `1*4*4` input matrix will have 16 elements, but if we apply the `im2col` algorithm to it for a `1*3*3` kernel, we will obtain a `1*16*4` matrix with 64 elements, the same elements has the original input matrix, but duplicated. And the problem just scale up with the size of the input matrix, knowing that the state-of-the-art kernel are `3*3`, and is also multiplied by the size of the training batch. 
 
 ### The winograd minimal filtering algorithm
-For an input of size `w*w` and a kernel `k*k`, we will obtain a `m² = (w-k+1)²` output. To do so, vanilla and im2col convolutions will performs `k²m²` multiplications. It is know since the 80's that the minimal algorithm for computing `m` outputs with a `r`-tap FIR filter needs $µ(F(m, r)) = m+k-1$ multiplications. So i out case, it will require $µ(F(m\times m, r \times r)) = µ(F(m, r))\times µ(F(m, r)) = (m+k-1)^2$ multiplications.
+For an input of size `w*w` and a kernel `k*k`, we will obtain a `m² = (w-k+1)²` output. To do so, vanilla and im2col convolutions will performs `k²m²` multiplications. It is know since the 80's that the minimal algorithm for computing `m` outputs with a `r`-tap FIR filter needs `µ(F(m, r)) = m+k-1` multiplications. So i out case, it will require `µ(F(m * m, r * r)) = µ(F(m, r)) * µ(F(m, r)) = (m+k-1)²` multiplications.
 
 where we have : 
 ![](./img/wino.png)
